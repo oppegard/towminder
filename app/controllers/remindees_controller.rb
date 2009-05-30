@@ -1,4 +1,5 @@
 class RemindeesController < ApplicationController
+
   # GET /remindees
   # GET /remindees.xml
   def index
