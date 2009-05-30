@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  cellphone: 1
+  provider: MyString
+  starting_month: 1
+  ending_month: 1
+
+two:
+  cellphone: 1
+  provider: MyString
+  starting_month: 1
+  ending_month: 1

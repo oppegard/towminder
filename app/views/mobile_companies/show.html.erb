@@ -1,0 +1,13 @@
+<p>
+  <b>Name:</b>
+  <%=h @mobile_company.name %>
+</p>
+
+<p>
+  <b>Email suffix:</b>
+  <%=h @mobile_company.email_suffix %>
+</p>
+
+
+<%= link_to 'Edit', edit_mobile_company_path(@mobile_company) %> |
+<%= link_to 'Back', mobile_companies_path %>

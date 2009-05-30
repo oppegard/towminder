@@ -1,0 +1,29 @@
+<h1>Editing remindee</h1>
+
+<% form_for(@remindee) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :cellphone %><br />
+    <%= f.text_field :cellphone %>
+  </p>
+  <p>
+    <%= f.label :mobile_company_id %><br />
+    <%= f.select :mobile_company_id, MobileCompany.all.collect {|m| [ m.name, m.id ] } %>
+	  
+  </p>
+  <p>
+    <%= f.label :starting_month %><br />
+    <%= f.text_field :starting_month %>
+  </p>
+  <p>
+    <%= f.label :ending_month %><br />
+    <%= f.text_field :ending_month %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @remindee %> |
+<%= link_to 'Back', remindees_path %>
