@@ -9,15 +9,15 @@
   </p>
   <p>
 	    <%= f.label :mobile_company_id %><br />
-	    <%= f.select :mobile_company_id, MobileCompany.all.collect {|m| [ m.name, m.id ] } %>
+	    <%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ] } %>
   </p>
   <p>
     <%= f.label :starting_month %><br />
-		<%= select_month(Date.today, {:field_name => :starting_month, :prefix => :remindee }, {:use_short_month => true}) %>
+		<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
   </p>
   <p>
     <%= f.label :ending_month %><br />
-    <%= select_month(Date.today, {:field_name => :ending_month, :prefix => :remindee }, {:use_short_month => true}) %>
+    <%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
   </p>
   <p>
     <%= f.submit 'Create' %>
