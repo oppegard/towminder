@@ -18,6 +18,11 @@
   <%=h @remindee.ending_month %>
 </p>
 
+<p>
+  <b>Remind at:</b>
+  <%=h @remindee.at %>
+</p>
+
 
 <%= link_to 'Edit', edit_remindee_path(@remindee) %> |
 <%= link_to 'Back', remindees_path %>

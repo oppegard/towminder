@@ -9,22 +9,41 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090523191217) do
+ActiveRecord::Schema.define(:version => 20090607210555) do
 
   create_table "mobile_companies", :force => true do |t|
-    t.string   "name"
-    t.string   "email_suffix"
+    t.string   "name",         :null => false
+    t.string   "email_suffix", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "mobile_companies", ["name"], :name => "index_mobile_companies_on_name", :unique => true
+
   create_table "remindees", :force => true do |t|
-    t.integer  "cellphone"
-    t.integer  "mobile_company_id"
-    t.integer  "starting_month"
-    t.integer  "ending_month"
+    t.integer  "cellphone",         :null => false
+    t.integer  "mobile_company_id", :null => false
+    t.integer  "starting_month",    :null => false
+    t.integer  "ending_month",      :null => false
+    t.string   "at",                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "remindees", ["at"], :name => "index_remindees_on_at"
+  add_index "remindees", ["cellphone"], :name => "index_remindees_on_cellphone", :unique => true
+  add_index "remindees", ["ending_month"], :name => "index_remindees_on_ending_month"
+  add_index "remindees", ["starting_month"], :name => "index_remindees_on_starting_month"
+
+  create_table "reminder_day_and_weeks", :force => true do |t|
+    t.string   "week_of_month", :null => false
+    t.string   "day_of_week",   :null => false
+    t.integer  "remindee_id",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month", "remindee_id"], :name => "index_reminder_day_and_weeks_on_day_of_week_and_week_of_month_and_remindee_id", :unique => true
+  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month"], :name => "index_reminder_day_and_weeks_on_day_of_week_and_week_of_month"
 
 end
