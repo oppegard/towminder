@@ -25,12 +25,9 @@ class RemindeesController < ApplicationController
   # GET /remindees/new
   # GET /remindees/new.xml
   def new
-    @remindee = Remindee.new
-    @remindee.starting_month = 4
-    @remindee.ending_month = 11
+    @remindee = Remindee.new(:starting_month => 4, :ending_month => 11)
     4.times do |i|
-      @remindee.reminder_day_and_weeks.build
-      @remindee.reminder_day_and_weeks[i].day_of_week = ReminderDayAndWeek::WEEKDAYS[i+1]
+      @remindee.reminder_day_and_weeks.build(:day_of_week => Date::DAYNAMES[i+2])
     end
 
     respond_to do |format|
