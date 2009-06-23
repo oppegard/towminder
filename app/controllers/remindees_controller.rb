@@ -78,7 +78,7 @@ class RemindeesController < ApplicationController
   # DELETE /remindees/1
   # DELETE /remindees/1.xml
   def destroy
-    @remindee = Remindee.find(params[:id])
+    @remindee = Remindee.find_by_cellphone(params[:cellphone_to_destroy])
     @remindee.destroy
 
     respond_to do |format|

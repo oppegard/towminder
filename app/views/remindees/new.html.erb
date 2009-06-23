@@ -1,54 +1,80 @@
-<h1>New remindee</h1>
+<h1>towminder</h1>
 
+<div class="span-12">
 <% form_for(@remindee) do |f| %>
-  <%= f.error_messages %>
-	
-	<% field_set_tag 'Send an SMS to' do %>
-  <p>
-    <%= f.label :cellphone %>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= f.label :mobile_company_id %><br />
-    <%= f.text_field :cellphone, {:size => 10}  %>
-		&nbsp;
-	  <%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ] } %>
-  </p>
-	<% end %>
+<%= f.error_messages %>
 
-	<p>
-	<% field_set_tag 'On the' do %>
-			<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
-			<div>
-				<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
-				&nbsp;
-				<%= rdaw_form.select :day_of_week, Date::DAYNAMES.map {|value| [value.titleize, value]} %>
-			</div>
-			<% end %>
-	<% end %>
-	</p>
+<div class="span-7">
+	<% field_set_tag 'Send an SMS to' do %>
+	<%= f.label :cell_number %>
+	<%= f.text_field :cellphone, {:size => 10}  %><br />
+	<!-- >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+	<%= f.label :mobile_company_id %>
 	
-  <p>
-    <%= f.label :starting_month %><br />
-		<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
-  </p>
-  <p>
-    <%= f.label :ending_month %><br />
-    <%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
-  </p>
-	<p>
-		<%= f.label :at, "Remind me" %><br />
-		<!-- <%= f.select :at, Remindee::AT_TIMES %> -->
-		<% Remindee::AT_TIMES.each do |disp, value| %>
-		<%= f.radio_button :at, value %>
-		<%= h disp %>
-		<br />
-		<% end %>
-		
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
+	&nbsp;
+	<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ] } %>
+	<% end %>
+</div>
+
+<hr class="space"/>
+
+<div class="span-6">
+	<% field_set_tag 'On the Following Days' do %>
+	<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
+	<div>
+		<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
+		&nbsp;
+		<%= rdaw_form.select :day_of_week, Date::DAYNAMES.map {|value| [value.titleize, value]} %>
+	</div>
+	<% end %>
+	<% end %>
+</div>
+
+<hr class="space"/>
+
+<div class="span-7">
+	<% field_set_tag 'From' do %>
+	<!-- <%= f.label :starting_month %> -->
+	<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
+	<!-- <%= f.label :ending_month %> -->
+	&nbsp;Through&nbsp;
+	<%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
+	<% end %>
+</div>
+
+<hr class="space"/>
+
+<div class="span-8">
+	<% field_set_tag 'When' do %>		
+	<!-- <%= f.select :at, Remindee::AT_TIMES %> -->
+	<% Remindee::AT_TIMES.each do |disp, value| %>
+	<%= f.radio_button :at, value %>
+	<%= h disp %>
+	<br />
+	<% end %>
+	<% end %>
+</div>
+
+<hr class="space"/>
+
+<%= f.submit 'Create' %>
 <% end %>
 
-</table>
+<hr class="space"/>
+<hr class="space"/>
+<hr class="space"/>
+<hr class="space"/>
 
-<%= h Time.now.month.first_wednesday %>
+<div class="span-9">
+	<% form_tag('/destroy', :method => :delete) do -%>
+	<% field_set_tag 'Stop Sending Reminders' do %>
+	<%= label_tag 'cellphone', 'Your Cell Number' %>
+	<%= text_field_tag 'cellphone_to_destroy' %>
+	<%= submit_tag 'Delete' %>
+	<% end -%>
+	<% end -%>
+</div>
+
+</div>
+
 <%= link_to 'Back', remindees_path %>

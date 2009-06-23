@@ -1,14 +1,14 @@
 class Remindee < ActiveRecord::Base
   belongs_to :mobile_company
-  has_many :reminder_day_and_weeks
+  has_many :reminder_day_and_weeks, :dependent => :destroy
   before_validation :sanitize_cellphone
   
   accepts_nested_attributes_for :reminder_day_and_weeks, :allow_destroy => true
   
   AT_TIMES = [
-    ["An hour before", "hour"],
-    ["The evening before", "day"],
-    ["Both", "both"]
+    ["An hour before street sweeping starts", "hour"],
+    ["The evening before street sweeping starts", "day"],
+    ["Both the evening before and an hour before", "both"]
   ]
   
   validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month

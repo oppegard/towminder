@@ -2,6 +2,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :mobile_companies
 
   map.resources :remindees
+  
+  map.connect 'destroy', :controller => 'remindees', :action => 'destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
 
