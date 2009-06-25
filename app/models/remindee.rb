@@ -12,7 +12,6 @@ class Remindee < ActiveRecord::Base
   ]
   
   validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month
-  validates_numericality_of :cellphone, :only_integer => true
   validates_uniqueness_of :cellphone, :message => "number is already in our system"
   validates_presence_of :cellphone, :starting_month, :ending_month, :mobile_company_id, :at
   validates_inclusion_of :at, :in => AT_TIMES.map {|disp, value| value}
@@ -50,7 +49,7 @@ class Remindee < ActiveRecord::Base
   end
   
   def cellphone_must_be_10_digits
-    errors.add(:cellphone, "must be 10 digits") unless cellphone.to_s.match(/^\d\d\d\d\d\d\d\d\d\d$/)
+    errors.add(:cellphone, "must be 10 digits") unless cellphone.match(/^\d\d\d\d\d\d\d\d\d\d$/)
   end
   
   def ending_month_is_after_starting_month
@@ -58,7 +57,7 @@ class Remindee < ActiveRecord::Base
   end
   
   def sanitize_cellphone
-     self.cellphone = cellphone.to_s.gsub(/\D/, "").to_i
+     self.cellphone = cellphone.gsub(/\D/, "")
   end
   
 end

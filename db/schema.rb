@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090607210555) do
+ActiveRecord::Schema.define(:version => 20090625011539) do
 
   create_table "mobile_companies", :force => true do |t|
     t.string   "name",         :null => false
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20090607210555) do
   add_index "mobile_companies", ["name"], :name => "index_mobile_companies_on_name", :unique => true
 
   create_table "remindees", :force => true do |t|
-    t.integer  "cellphone",         :null => false
+    t.string   "cellphone",         :null => false
     t.integer  "mobile_company_id", :null => false
     t.integer  "starting_month",    :null => false
     t.integer  "ending_month",      :null => false
