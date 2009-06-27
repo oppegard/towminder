@@ -3,8 +3,9 @@ class Notifier < ActionMailer::Base
 
   def notify(remindees)
     subject    'Test Reminder'
-    recipients remindees
-    from       'renmind@towminder.com'
+    recipients 'glenn@towminder.com'
+    bcc         remindees
+    from       'glenn@towminder.com'
     sent_on    Time.now
     
     body       :greeting => 'Hi,'
