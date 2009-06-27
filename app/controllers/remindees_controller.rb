@@ -58,25 +58,7 @@ class RemindeesController < ApplicationController
     end
   end
 
-  # PUT /remindees/1
-  # PUT /remindees/1.xml
-  def update
-    @remindee = Remindee.find(params[:id])
-
-    respond_to do |format|
-      if @remindee.update_attributes(params[:remindee])
-        flash[:notice] = 'Remindee was successfully updated.'
-        format.html { redirect_to(@remindee) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @remindee.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /remindees/1
-  # DELETE /remindees/1.xml
+  # FIXME: Allow cellphone to be submitted in format other than 3035551234
   def destroy
     @remindee = Remindee.find_by_cellphone(params[:cellphone_to_destroy])
     @remindee.destroy

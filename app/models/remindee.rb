@@ -28,7 +28,7 @@ class Remindee < ActiveRecord::Base
     ReminderDayAndWeek::WEEKS_OF_MONTH.each do |week|
       if lookup_date.to_time.month.send("#{week}_#{lookup_day}") == lookup_date
         lookup_week = week
-        # p "Lookup date is the #{week} #{lookup_day} of #{Date::MONTHNAMES[lookup_date.month]}."
+        #p "Lookup date is the #{week} #{lookup_day} of #{Date::MONTHNAMES[lookup_date.month]}."
       end
     end     
     
