@@ -5,8 +5,8 @@
 <% form_for(@remindee) do |f| %>
 <%= f.error_messages :class => "error", :header_tag => "h3", :header_message => ""%>
 
-	<% field_set_tag 'Send an SMS to', :class => "span-6" do %>
-	<div class="span-6">
+	<% field_set_tag 'Send an SMS to', :class => "span-7" do %>
+	<div class="span-7">
 	<%= f.label :cellphone, "Your Cell Number" %>&nbsp;
 	<%= f.text_field :cellphone, {:size => 15}  %>
 	</div>
@@ -16,7 +16,7 @@
 
 
 
-	<% field_set_tag 'On the Following Days', :class => "span-6" do %>
+	<% field_set_tag 'On the Following Days', :class => "span-7" do %>
 	<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
 
 		<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
@@ -25,15 +25,12 @@
 		<br />
 	
 	<% end -%>
-	<% end -%>
-
-
-	<% field_set_tag 'From', :class => "span-7" do %>
-	<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
-	&nbsp;Through&nbsp;
+	<hr class="space"/>
+	
+	<%= f.label :starting_month, "From" %>&nbsp;<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
+	&nbsp;<%= f.label :ending_month, "Through" %>&nbsp;
 	<%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
-	<% end %>
-
+	<% end -%>
 
 	<% field_set_tag 'When', :class => "span-7" do %>		
 		<% Remindee::AT_TIMES.each do |disp, value| %>
@@ -46,7 +43,7 @@
 
 
 
-<%= f.submit 'Sign Up!' %>
+<%= f.submit 'Sign Up' %>
 <% end %>
 
 <% if flash[:success] -%>
@@ -58,8 +55,8 @@
 
 
 <div class="span-14 last">
-	<h1 class="quiet">Tired of street-sweeping tickets?</h1>
-	<h3 class="quiet">Towminder is a <text class="highlight">free</text> street-sweeping reminder service. Fill out the information on the left and you'll get an SMS reminding you to move your car on the specified days.</h3>
+	<h1 class="quiet">Tired of street sweeping tickets?</h1>
+	<h3 class="quiet">Towminder is a <text class="highlight">free</text> street sweeping reminder service. Fill out the information to the left and you'll get an SMS reminding you to move your car. It's as easy as 1-2-3.</h3>
 
 	<hr class="space"/>
 	<hr class="space"/>
@@ -67,11 +64,10 @@
 	
 	<h3 class="quiet">To stop receiving reminders, enter your cell number below.</h3>
 	<% form_tag('/destroy', :method => :delete) do -%>
-	<% field_set_tag 'Stop Sending Reminders', :class => "span-9" do %>
+
 	<%= label_tag 'cellphone', 'Your Cell Number' %>&nbsp;
 	<%= text_field_tag 'cellphone_to_destroy' %>&nbsp;
 	<%= submit_tag 'Remove', :confirm => 'Are you sure?' %>
-	<% end -%>
 	<% end -%>
 	
 	<% if flash[:removed] -%>
@@ -81,6 +77,10 @@
 	<p class="error"><%= flash[:not_removed] %></p>
 	<% end -%>
 	
+	<!-- It's pretty clear I'm not a CSS guy, thanks Blueprint! -->
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
 	<hr class="space"/>
 	<hr class="space"/>
 	<hr class="space"/>
@@ -92,10 +92,8 @@
 	<div class="span-7 last">
 		<h4 class="quiet highlight">Credits</h4>
 		<img src="/images/glenn.jpg" alt="Glenn" style="border:1px solid black; float:right" />
-		<p>Glenn, living at 13th <span class="alt">&amp;</span> Logan, made Towminder after getting one too many tickets. 
+		<p>Living in Capitol Hill, Glenn made Towminder after getting one too many tickets. 
 			Written in <a href="http://github.com/oppegard/towminder">Rails</a>
 			and hosted by <a href="http://www.aktiom.net">Aktiom</a> in Denver. Email <a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#x67;&#x6C;&#x65;&#x6E;&#x6E;&#x40;&#x74;&#x6F;&#x77;&#x6D;&#x69;&#x6E;&#x64;&#x65;&#x72;&#x2E;&#x63;&#x6F;&#x6D;" title="">me</a>.</p>
 	</div>
 </div>
-
-

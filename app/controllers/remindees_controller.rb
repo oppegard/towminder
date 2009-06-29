@@ -1,26 +1,5 @@
 class RemindeesController < ApplicationController
 
-  # GET /remindees
-  # GET /remindees.xml
-  def index
-    @remindees = Remindee.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @remindees }
-    end
-  end
-
-  # GET /remindees/1
-  # GET /remindees/1.xml
-  def show
-    @remindee = Remindee.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @remindee }
-    end
-  end
 
   # GET /remindees/new
   # GET /remindees/new.xml
@@ -50,10 +29,11 @@ class RemindeesController < ApplicationController
     respond_to do |format|
       if @remindee.save
         flash[:success] = 'You were successfully added to Towminder.'
-        format.html { redirect_to :action => "new" }
+        format.html { redirect_to root_url }
         format.xml  { render :xml => @remindee, :status => :created, :location => @remindee }
       else
         format.html { render :action => "new" }
+        #format.html { render root_url, :layout => "remindees", :template => "new" }
         format.xml  { render :xml => @remindee.errors, :status => :unprocessable_entity }
       end
     end
@@ -63,14 +43,14 @@ class RemindeesController < ApplicationController
   def destroy
     @remindee = Remindee.find_by_cellphone(params[:cellphone_to_destroy])
     if @remindee.nil?
-      flash[:not_removed] = "Couldn't find your number. Make you you enter only numbers (e.g. 3035551234)."
+      flash[:not_removed] = "Couldn't find your number. Make sure you enter only digits, e.g. 3035551234."
     else
       @remindee.destroy
       flash[:removed] = "You were successfully removed from Towminder."
     end
 
     respond_to do |format|
-      format.html { redirect_to :action => "new" }
+      format.html { redirect_to root_url }
       format.xml  { head :ok }
     end
   end
