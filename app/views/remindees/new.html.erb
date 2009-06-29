@@ -1,6 +1,7 @@
-<h1>Towminder</h1>
+<hr class="space"/>
+<hr class="space"/>
 
-<div class="span-10 colborder">
+<div class="span-9 colborder">
 <% form_for(@remindee) do |f| %>
 <%= f.error_messages :class => "error", :header_tag => "h3", :header_message => ""%>
 
@@ -9,7 +10,7 @@
 	<%= f.label :cellphone, "Your Cell Number" %>&nbsp;
 	<%= f.text_field :cellphone, {:size => 15}  %>
 	</div>
-	<%= f.label :mobile_company_id, "Mobile Company" %>&nbsp;
+	<%= f.label :mobile_company_id, "Cellphone Company" %>&nbsp;
 	<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ]} %>
 	<% end -%>
 
@@ -35,12 +36,11 @@
 
 
 	<% field_set_tag 'When', :class => "span-7" do %>		
-	<!-- <%= f.select :at, Remindee::AT_TIMES %> -->
-	<% Remindee::AT_TIMES.each do |disp, value| %>
-	<%= f.radio_button :at, value %>
-	<%= h disp %>
-	<br />
-	<% end -%>
+		<% Remindee::AT_TIMES.each do |disp, value| %>
+			<%= f.radio_button :at, value %>
+			<%= h disp %>
+			<br />
+		<% end -%>
 	<% end -%>
 
 
@@ -50,18 +50,24 @@
 <% end %>
 
 <% if flash[:success] -%>
-<p class="success"><%= flash[:success] %></p>
+<hr class="space"/>
+<div class="success"><%= flash[:success] %></div>
 <% end -%>
 
+</div>
 
-<hr class="space"/>
-<hr class="space"/>
-<hr class="space"/>
-<hr class="space"/>
 
-<div class="span-10">
-	<% form_tag('/destroy', :method => :delete, :class => "inline") do -%>
-	<% field_set_tag 'Stop Sending Reminders' do %>
+<div class="span-14 last">
+	<h1 class="quiet">Tired of street-sweeping tickets?</h1>
+	<h3 class="quiet">Towminder is a <text class="highlight">free</text> street-sweeping reminder service. Fill out the information on the left and you'll get an SMS reminding you to move your car on the specified days.</h3>
+
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
+	
+	<h3 class="quiet">To stop receiving reminders, enter your cell number below.</h3>
+	<% form_tag('/destroy', :method => :delete) do -%>
+	<% field_set_tag 'Stop Sending Reminders', :class => "span-9" do %>
 	<%= label_tag 'cellphone', 'Your Cell Number' %>&nbsp;
 	<%= text_field_tag 'cellphone_to_destroy' %>&nbsp;
 	<%= submit_tag 'Remove', :confirm => 'Are you sure?' %>
@@ -74,6 +80,22 @@
 	<% if flash[:not_removed] -%>
 	<p class="error"><%= flash[:not_removed] %></p>
 	<% end -%>
+	
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
+	<hr class="space"/>
+	
+	<div class="span-7">&nbsp;</div>
+	<div class="span-7 last">
+		<h4 class="quiet highlight">Credits</h4>
+		<img src="/images/glenn.jpg" alt="Glenn" style="border:1px solid black; float:right" />
+		<p>Glenn, living at 13th <span class="alt">&amp;</span> Logan, made Towminder after getting one too many tickets. 
+			Written in <a href="http://github.com/oppegard/towminder">Rails</a>
+			and hosted by <a href="http://www.aktiom.net">Aktiom</a> in Denver. Email <a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#x67;&#x6C;&#x65;&#x6E;&#x6E;&#x40;&#x74;&#x6F;&#x77;&#x6D;&#x69;&#x6E;&#x64;&#x65;&#x72;&#x2E;&#x63;&#x6F;&#x6D;" title="">me</a>.</p>
+	</div>
 </div>
 
-</div>
+

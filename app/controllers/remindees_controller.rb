@@ -50,7 +50,7 @@ class RemindeesController < ApplicationController
     respond_to do |format|
       if @remindee.save
         flash[:success] = 'You were successfully added to Towminder.'
-        format.html { render :action => "new" }
+        format.html { redirect_to :action => "new" }
         format.xml  { render :xml => @remindee, :status => :created, :location => @remindee }
       else
         format.html { render :action => "new" }
