@@ -12,7 +12,7 @@ class Remindee < ActiveRecord::Base
   ]
   
   validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month
-  validates_uniqueness_of :cellphone, :message => "number is already in the towminder system"
+  validates_uniqueness_of :cellphone, :message => "is already in the towminder system"
   validates_presence_of :cellphone, :starting_month, :ending_month, :mobile_company_id, :at
   validates_inclusion_of :at, :in => AT_TIMES.map {|dispay, value| value}
   

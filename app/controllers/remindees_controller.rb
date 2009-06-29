@@ -29,6 +29,7 @@ class RemindeesController < ApplicationController
     4.times do |i|
       @remindee.reminder_day_and_weeks.build(:day_of_week => Date::DAYNAMES[i+2])
     end
+    @remindee.at = "hour"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,8 +49,8 @@ class RemindeesController < ApplicationController
 
     respond_to do |format|
       if @remindee.save
-        flash[:notice] = 'Remindee was successfully created.'
-        format.html { redirect_to(@remindee) }
+        flash[:success] = 'You were successfully added to Towminder.'
+        format.html { render :action => "new" }
         format.xml  { render :xml => @remindee, :status => :created, :location => @remindee }
       else
         format.html { render :action => "new" }
@@ -61,10 +62,15 @@ class RemindeesController < ApplicationController
   # FIXME: Allow cellphone to be submitted in format other than 3035551234
   def destroy
     @remindee = Remindee.find_by_cellphone(params[:cellphone_to_destroy])
-    @remindee.destroy
+    if @remindee.nil?
+      flash[:not_removed] = "Couldn't find your number. Make you you enter only numbers (e.g. 3035551234)."
+    else
+      @remindee.destroy
+      flash[:removed] = "You were successfully removed from Towminder."
+    end
 
     respond_to do |format|
-      format.html { redirect_to(remindees_url) }
+      format.html { redirect_to :action => "new" }
       format.xml  { head :ok }
     end
   end

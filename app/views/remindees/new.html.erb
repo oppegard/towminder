@@ -1,80 +1,79 @@
-<h1>towminder</h1>
+<h1>Towminder</h1>
 
-<div class="span-12">
+<div class="span-10 colborder">
 <% form_for(@remindee) do |f| %>
-<%= f.error_messages %>
+<%= f.error_messages :class => "error", :header_tag => "h3", :header_message => ""%>
 
-<div class="span-7">
-	<% field_set_tag 'Send an SMS to' do %>
-	<%= f.label :cell_number %>
-	<%= f.text_field :cellphone, {:size => 10}  %><br />
-	<!-- >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-	<%= f.label :mobile_company_id %>
-	
-	&nbsp;
-	<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ] } %>
-	<% end %>
-</div>
+	<% field_set_tag 'Send an SMS to', :class => "span-6" do %>
+	<div class="span-6">
+	<%= f.label :cellphone, "Your Cell Number" %>&nbsp;
+	<%= f.text_field :cellphone, {:size => 15}  %>
+	</div>
+	<%= f.label :mobile_company_id, "Mobile Company" %>&nbsp;
+	<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ]} %>
+	<% end -%>
 
-<hr class="space"/>
 
-<div class="span-6">
-	<% field_set_tag 'On the Following Days' do %>
+
+	<% field_set_tag 'On the Following Days', :class => "span-6" do %>
 	<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
-	<div>
+
 		<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
 		&nbsp;
 		<%= rdaw_form.select :day_of_week, Date::DAYNAMES.map {|value| [value.titleize, value]} %>
-	</div>
-	<% end %>
-	<% end %>
-</div>
+		<br />
+	
+	<% end -%>
+	<% end -%>
 
-<hr class="space"/>
 
-<div class="span-7">
-	<% field_set_tag 'From' do %>
-	<!-- <%= f.label :starting_month %> -->
+	<% field_set_tag 'From', :class => "span-7" do %>
 	<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
-	<!-- <%= f.label :ending_month %> -->
 	&nbsp;Through&nbsp;
 	<%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
 	<% end %>
-</div>
 
-<hr class="space"/>
 
-<div class="span-8">
-	<% field_set_tag 'When' do %>		
+	<% field_set_tag 'When', :class => "span-7" do %>		
 	<!-- <%= f.select :at, Remindee::AT_TIMES %> -->
 	<% Remindee::AT_TIMES.each do |disp, value| %>
 	<%= f.radio_button :at, value %>
 	<%= h disp %>
 	<br />
-	<% end %>
-	<% end %>
-</div>
+	<% end -%>
+	<% end -%>
 
-<hr class="space"/>
 
-<%= f.submit 'Create' %>
+
+
+<%= f.submit 'Sign Up!' %>
 <% end %>
 
+<% if flash[:success] -%>
+<p class="success"><%= flash[:success] %></p>
+<% end -%>
+
+
 <hr class="space"/>
 <hr class="space"/>
 <hr class="space"/>
 <hr class="space"/>
 
-<div class="span-9">
-	<% form_tag('/destroy', :method => :delete) do -%>
+<div class="span-10">
+	<% form_tag('/destroy', :method => :delete, :class => "inline") do -%>
 	<% field_set_tag 'Stop Sending Reminders' do %>
-	<%= label_tag 'cellphone', 'Your Cell Number' %>
-	<%= text_field_tag 'cellphone_to_destroy' %>
-	<%= submit_tag 'Delete' %>
+	<%= label_tag 'cellphone', 'Your Cell Number' %>&nbsp;
+	<%= text_field_tag 'cellphone_to_destroy' %>&nbsp;
+	<%= submit_tag 'Remove', :confirm => 'Are you sure?' %>
 	<% end -%>
+	<% end -%>
+	
+	<% if flash[:removed] -%>
+	<p class="success"><%= flash[:removed] %></p>
+	<% end -%>
+	<% if flash[:not_removed] -%>
+	<p class="error"><%= flash[:not_removed] %></p>
 	<% end -%>
 </div>
 
 </div>
-
-<%= link_to 'Back', remindees_path %>
