@@ -1,3 +1,5 @@
-Notifier#notify
-
-Find me in app/views/notifier/notify.erb
+<% if @alert_period == "hour" -%>
+Today is street sweeping, don't forget to move your car!
+<% else -%>
+Tomorrow is street sweeping, don't forget to move your car!
+<% end -%>
