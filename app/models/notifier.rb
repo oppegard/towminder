@@ -1,13 +1,11 @@
 class Notifier < ActionMailer::Base
   
 
-  def notify(remindees, alert_period="hour")
-    #subject    'Test Reminder'
-    recipients  remindees
-    #bcc         remindees
+  def notify(remindee_emails, alert_period="hour")
+    recipients  'glenn@towminder.com'
+    bcc         remindee_emails
     from       'glenn@towminder.com'
     sent_on    Time.now
-    
     body       :alert_period => alert_period
   end
 
