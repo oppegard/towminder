@@ -5,45 +5,47 @@
 <% form_for(@remindee) do |f| %>
 <%= f.error_messages :class => "error", :header_tag => "h3", :header_message => ""%>
 
-	<% field_set_tag 'Send an SMS to', :class => "span-7" do %>
-	<div class="span-7">
-	<%= f.label :cellphone, "Your Cell Number" %>&nbsp;
-	<%= f.text_field :cellphone, {:size => 15}  %>
-	</div>
-	<%= f.label :mobile_company_id, "Cellphone Company" %>&nbsp;
-	<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ]} %>
+
+
+	<% field_set_tag 'Send a Text Message to', :class => "span-7" do %>
+		<div class="span-7">
+			<%= f.label :cellphone, "Your Cell Number", :class => "inline" %>&nbsp;
+			<%= f.text_field :cellphone, {:size => 15, :class => "inline"}  %>
+		</div>
+		<div class="span-7">
+		<%= f.label :mobile_company_id, "Cellphone Company" %>&nbsp;
+		<%= f.select :mobile_company_id, MobileCompany.all(:order => "name ASC").collect {|m| [ m.name, m.id ]} %>
+		</div>
 	<% end -%>
 
 
 
 	<% field_set_tag 'On the Following Days', :class => "span-7" do %>
-	<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
-
-		<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
-		&nbsp;
-		<%= rdaw_form.select :day_of_week, Date::DAYNAMES.map {|value| [value.titleize, value]} %>
-		<br />
+		<% f.fields_for :reminder_day_and_weeks do |rdaw_form| %>
+			<%= rdaw_form.select :week_of_month, ReminderDayAndWeek::WEEKS_OF_MONTH.map {|value| [value.titleize, value]} %>
+			&nbsp;
+			<%= rdaw_form.select :day_of_week, Date::DAYNAMES.map {|value| [value.titleize, value]} %>
+			<br />
+		<% end -%>
+		<hr class="space"/>
 	
-	<% end -%>
-	<hr class="space"/>
-	
-	<%= f.label :starting_month, "From" %>&nbsp;<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
-	&nbsp;<%= f.label :ending_month, "Through" %>&nbsp;
-	<%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
+		<%= f.label :starting_month, "From" %>&nbsp;<%= select_month(Date.civil(Date.today.year, 4, 1), {:field_name => :starting_month, :prefix => :remindee}) %>
+		&nbsp;<%= f.label :ending_month, "Through" %>&nbsp;
+		<%= select_month(Date.civil(Date.today.year, 11, 1), {:field_name => :ending_month, :prefix => :remindee }) %>
 	<% end -%>
 
-	<% field_set_tag 'When', :class => "span-7" do %>		
+
+
+	<% field_set_tag 'When to Send', :class => "span-7" do %>		
 		<% Remindee::AT_TIMES.each do |disp, value| %>
 			<%= f.radio_button :at, value %>
-			<%= h disp %>
+			<%= f.label :at, (h disp), {:id => f.object_name + '_at_' + value, :class => "plain"} %>
 			<br />
 		<% end -%>
 	<% end -%>
 
 
-
-
-<%= f.submit 'Sign Up' %>
+	<%= f.submit 'Sign Up' %>
 <% end %>
 
 <% if flash[:success] -%>
@@ -54,28 +56,31 @@
 </div>
 
 
+
 <div class="span-14 last">
 	<h1 class="quiet">Tired of street sweeping tickets?</h1>
-	<h3 class="quiet">Towminder is a <span class="highlight">free</span> street sweeping reminder service. Fill out the information to the left and you'll get an SMS reminding you to move your car. It's as easy as 1-2-3.</h3>
+	<h3 class="quiet">Towminder is a <span class="highlight">free</span> street sweeping reminder service. Fill out the information to the left and you'll get a text message reminding you to move your car. It's as easy as 1-2-3.</h3>
 
 	<hr class="space"/>
 	<hr class="space"/>
 	<hr class="space"/>
 	
 	<h3 class="quiet">To stop receiving reminders, enter your cell number below.</h3>
-	<% form_tag('/destroy', :method => :delete) do -%>
-
-	<%= label_tag 'cellphone', 'Your Cell Number' %>&nbsp;
-	<%= text_field_tag 'cellphone_to_destroy' %>&nbsp;
-	<%= submit_tag 'Remove', :confirm => 'Are you sure?' %>
-	<% end -%>
 	
-	<% if flash[:removed] -%>
-	<p class="success"><%= flash[:removed] %></p>
-	<% end -%>
-	<% if flash[:not_removed] -%>
-	<p class="error"><%= flash[:not_removed] %></p>
-	<% end -%>
+	<div class="span-14">
+		<% form_tag('/destroy', :method => :delete, :class => "inline") do -%>
+			<%= label_tag 'cellphone_to_destroy', 'Your Cell Number' %>&nbsp;
+			<%= text_field_tag 'cellphone_to_destroy' %>&nbsp;
+			<%= submit_tag 'Remove', :confirm => 'Are you sure?' %>
+		<% end -%>
+	
+		<% if flash[:removed] -%>
+			<p class="success"><%= flash[:removed] %></p>
+		<% end -%>
+		<% if flash[:not_removed] -%>
+			<p class="error"><%= flash[:not_removed] %></p>
+		<% end -%>
+	</div>
 	
 	<!-- It's pretty clear I'm not a CSS guy, thanks Blueprint! -->
 	<hr class="space"/>

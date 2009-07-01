@@ -75,6 +75,7 @@ caption {background:#eee;}
 
 /* forms.css */
 label {font-weight:bold;}
+label.plain {font-weight:normal;}
 fieldset {padding:1.4em;margin:0 0 1.5em 0;border-left:0px; border-right:0px; border-bottom:0px;border-top:1px solid #ccc;}
 legend {font-weight:bold;font-size:1.2em;padding-left: 0.3em;padding-right: 0.3em;}
 input[type=text], input[type=password], input.text, input.title, textarea, select {background-color:#fff;border:1px solid #bbb;}
