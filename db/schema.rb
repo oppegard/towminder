@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20090625011539) do
     t.datetime "updated_at"
   end
 
-  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month", "remindee_id"], :name => "index_reminder_day_and_weeks_on_day_of_week_and_week_of_month_and_remindee_id", :unique => true
-  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month"], :name => "index_reminder_day_and_weeks_on_day_of_week_and_week_of_month"
+  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month", "remindee_id"], :name => "idx_rdaw_dow_wom_rid", :unique => true
+  add_index "reminder_day_and_weeks", ["day_of_week", "week_of_month"], :name => "idx_rdaw_dow_wom"
 
 end

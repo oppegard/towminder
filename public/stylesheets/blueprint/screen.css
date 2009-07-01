@@ -93,7 +93,7 @@ form.inline p {margin-bottom:0;}
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
-.fieldWithErrors {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
+.fieldWithErrors {display:inline;background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
 
 /* grid.css */
 .container {width:950px;margin:0 auto;}

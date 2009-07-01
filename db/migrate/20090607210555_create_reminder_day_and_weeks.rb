@@ -8,8 +8,8 @@ class CreateReminderDayAndWeeks < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :reminder_day_and_weeks, [:day_of_week, :week_of_month]
-    add_index :reminder_day_and_weeks, [:day_of_week, :week_of_month, :remindee_id], :unique => true
+    add_index :reminder_day_and_weeks, [:day_of_week, :week_of_month], :name => 'idx_rdaw_dow_wom'
+    add_index :reminder_day_and_weeks, [:day_of_week, :week_of_month, :remindee_id], :unique => true, :name => 'idx_rdaw_dow_wom_rid'
   end
 
   def self.down
