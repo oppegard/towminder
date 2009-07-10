@@ -16,11 +16,6 @@ class RemindeesController < ApplicationController
     end
   end
 
-  # GET /remindees/1/edit
-  def edit
-    @remindee = Remindee.find(params[:id])
-  end
-
   # POST /remindees
   # POST /remindees.xml
   def create
