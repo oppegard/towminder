@@ -11,7 +11,7 @@ class Remindee < ActiveRecord::Base
     ["Both the evening before and an hour before", "both"]
   ]
   
-  validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month
+  validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month, :reminder_day_and_weeks_uniqueness
   validates_uniqueness_of :cellphone, :message => "is already in the towminder system"
   validates_presence_of :cellphone, :starting_month, :ending_month, :mobile_company_id, :at
   validates_inclusion_of :at, :in => AT_TIMES.map {|dispay, value| value}
@@ -62,6 +62,17 @@ class Remindee < ActiveRecord::Base
   def sanitize_cellphone
     # Strip out any character that isn't a digit
     self.cellphone = cellphone.gsub(/\D/, "")
+  end
+  
+  def reminder_day_and_weeks_uniqueness
+    all_unique = true
+    self.reminder_day_and_weeks.each do |rdaw|
+      temp_ary = self.reminder_day_and_weeks.find_all do |comp|
+        rdaw.day_of_week == comp.day_of_week && rdaw.week_of_month == comp.week_of_month
+      end
+      all_unique = false if temp_ary.length > 1
+    end
+    errors.add_to_base("Each day and week of month must be unique") if all_unique == false
   end
   
 end
