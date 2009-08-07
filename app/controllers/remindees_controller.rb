@@ -27,7 +27,7 @@ class RemindeesController < ApplicationController
         # make flash success msg informative
         flash[:success] = 'You will receive reminders on the '
         flash[:success] += @remindee.reminder_day_and_weeks.collect {|rdaw| "#{rdaw.week_of_month.titleize} #{rdaw.day_of_week.titleize}"}.to_sentence
-        flash[:success] += " from #{Date::MONTHNAMES[@remindee.starting_month]} to #{Date::MONTHNAMES[@remindee.ending_month]}."
+        flash[:success] += " from #{Date::MONTHNAMES[@remindee.starting_month]} through #{Date::MONTHNAMES[@remindee.ending_month]}."
         
         format.html { redirect_to root_url }
         format.xml  { render :xml => @remindee, :status => :created, :location => @remindee }
