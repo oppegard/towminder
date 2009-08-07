@@ -13,7 +13,7 @@ class Remindee < ActiveRecord::Base
   ]
   
   validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month
-  validates_uniqueness_of :cellphone, :message => "is already in the towminder system"
+  validates_uniqueness_of :cellphone, :message => "is already in the Towminder system"
   validates_presence_of :cellphone, :starting_month, :ending_month, :mobile_company_id, :at
   validates_inclusion_of :at, :in => AT_TIMES.map {|dispay, value| value}
   
@@ -45,7 +45,6 @@ class Remindee < ActiveRecord::Base
                           lookup_day,
                           "both", alert_period], 
                         :include => [:mobile_company, :reminder_day_and_weeks])
-    
   end
   
   
@@ -61,7 +60,7 @@ class Remindee < ActiveRecord::Base
   end
   
   def remove_duplicate_rdaws
-    self.reminder_day_and_weeks = uniq_with_block (self.reminder_day_and_weeks) {|a| a[:week_of_month] + a[:day_of_week]}
+    self.reminder_day_and_weeks = uniq_with_block(self.reminder_day_and_weeks) {|a| a[:week_of_month] + a[:day_of_week]}
   end
   
   def cellphone_must_be_10_digits
