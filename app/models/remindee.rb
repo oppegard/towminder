@@ -2,6 +2,7 @@ class Remindee < ActiveRecord::Base
   belongs_to :mobile_company
   has_many :reminder_day_and_weeks, :dependent => :destroy
   before_validation :sanitize_cellphone
+  before_save :remove_duplicate_rdaws
   
   accepts_nested_attributes_for :reminder_day_and_weeks, :allow_destroy => true
   
@@ -11,7 +12,7 @@ class Remindee < ActiveRecord::Base
     ["Both the evening before and an hour before", "both"]
   ]
   
-  validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month, :reminder_day_and_weeks_uniqueness
+  validate :cellphone_must_be_10_digits, :ending_month_is_after_starting_month
   validates_uniqueness_of :cellphone, :message => "is already in the towminder system"
   validates_presence_of :cellphone, :starting_month, :ending_month, :mobile_company_id, :at
   validates_inclusion_of :at, :in => AT_TIMES.map {|dispay, value| value}
@@ -48,8 +49,20 @@ class Remindee < ActiveRecord::Base
   end
   
   
-  
   private
+  
+  def uniq_with_block (array)
+    return array.uniq unless block_given?
+    aggregator = {}
+    array.each do |element|
+      aggregator[yield(element)] ||= element
+    end
+    aggregator.values
+  end
+  
+  def remove_duplicate_rdaws
+    self.reminder_day_and_weeks = uniq_with_block (self.reminder_day_and_weeks) {|a| a[:week_of_month] + a[:day_of_week]}
+  end
   
   def cellphone_must_be_10_digits
     errors.add(:cellphone, "must be 10 digits") unless cellphone.match(/^\d\d\d\d\d\d\d\d\d\d$/)
